@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 12px;
+        min-width: 200px;
+      }
+      .count {
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .label {
+        color: #666;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="label">Today</div>
+      <div class="count" id="dailyCount">–</div>
+    </div>
+
+    <hr />
+
+    <div>
+      <div class="label">All time</div>
+      <div class="count" id="totalCount">–</div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
