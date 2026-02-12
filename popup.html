@@ -61,13 +61,6 @@
         font-weight: 600;
       }
 
-      .footer {
-        text-align: center;
-        font-size: 11px;
-        color: #9ca3af;
-        margin-top: 6px;
-      }
-
       .btn {
         width: 100%;
         padding: 8px;
@@ -88,17 +81,17 @@
 
   <body>
     <div id="dashboard">
-      <div class="title">YouTube Tracker</div>
+      <div class="title">YouTube Clicks Tracker</div>
 
       <div class="card">
-        <div class="section-label">Today</div>
+        <div class="section-label">Today, <span id="todayDate"></span></div>
         <div class="big-number" id="dailyCount">–</div>
       </div>
 
       <div class="card">
         <div class="section-label">Breakdown</div>
         <div class="row">
-          <span>Work Hours</span>
+          <span>During Work Hours</span>
           <span class="work" id="workHoursCount">–</span>
         </div>
         <div class="row">
@@ -111,12 +104,11 @@
         <div class="section-label">All Time</div>
         <div class="big-number" id="totalCount">–</div>
       </div>
-
-      <div class="footer">Stay intentional.</div>
     </div>
 
     <button class="btn" id="saveBtn">Download as Image</button>
 
     <script src="popup.js"></script>
+    <script src="utils.js"></script>
   </body>
 </html>
