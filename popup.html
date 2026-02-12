@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <script src="html2canvas.min.js"></script>
     <style>
       body {
         font-family:
@@ -51,12 +52,12 @@
       }
 
       .work {
-        color: #dc2626; /* red tone */
+        color: #dc2626;
         font-weight: 600;
       }
 
       .non-work {
-        color: #059669; /* green tone */
+        color: #059669;
         font-weight: 600;
       }
 
@@ -66,35 +67,55 @@
         color: #9ca3af;
         margin-top: 6px;
       }
+
+      .btn {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        background: #111827;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        margin-top: 8px;
+      }
+
+      .btn:hover {
+        background: #1f2937;
+      }
     </style>
   </head>
 
   <body>
-    <div class="title">YouTube Click Tracker</div>
+    <div id="dashboard">
+      <div class="title">YouTube Tracker</div>
 
-    <div class="card">
-      <div class="section-label">Today</div>
-      <div class="big-number" id="dailyCount">–</div>
-    </div>
-
-    <div class="card">
-      <div class="section-label">Breakdown</div>
-      <div class="row">
-        <span>During Work Hours</span>
-        <span class="work" id="workHoursCount">–</span>
+      <div class="card">
+        <div class="section-label">Today</div>
+        <div class="big-number" id="dailyCount">–</div>
       </div>
-      <div class="row">
-        <span>Outside Work</span>
-        <span class="non-work" id="nonWorkHoursCount">–</span>
+
+      <div class="card">
+        <div class="section-label">Breakdown</div>
+        <div class="row">
+          <span>Work Hours</span>
+          <span class="work" id="workHoursCount">–</span>
+        </div>
+        <div class="row">
+          <span>Outside Work</span>
+          <span class="non-work" id="nonWorkHoursCount">–</span>
+        </div>
       </div>
+
+      <div class="card">
+        <div class="section-label">All Time</div>
+        <div class="big-number" id="totalCount">–</div>
+      </div>
+
+      <div class="footer">Stay intentional.</div>
     </div>
 
-    <div class="card">
-      <div class="section-label">All Time</div>
-      <div class="big-number" id="totalCount">–</div>
-    </div>
-
-    <div class="footer">Stay intentional.</div>
+    <button class="btn" id="saveBtn">Download as Image</button>
 
     <script src="popup.js"></script>
   </body>

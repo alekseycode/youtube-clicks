@@ -13,3 +13,14 @@ chrome.storage.local.get(
       data.nonWorkHoursCount;
   },
 );
+
+document.getElementById("saveBtn").addEventListener("click", () => {
+  const dashboard = document.getElementById("dashboard");
+
+  html2canvas(dashboard).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = `youtube-tracker-${new Date().toISOString().split("T")[0]}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+});
