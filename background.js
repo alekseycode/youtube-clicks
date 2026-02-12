@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "midnightReset") {
-    resetDailyCount();
+    resetDailyCounts();
     scheduleMidnightReset();
   }
 });
@@ -19,8 +19,6 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 
   if (!YOUTUBE_REGEX.test(url)) return;
   if (transitionType === "reload") return;
-
-  // Only count actual link clicks (not typing URL)
   if (transitionQualifiers.includes("from_address_bar")) return;
 
   incrementCounters();
@@ -28,42 +26,80 @@ chrome.webNavigation.onCommitted.addListener((details) => {
 
 function incrementCounters() {
   ensureToday(() => {
-    chrome.storage.local.get({ dailyCount: 0, totalCount: 0 }, (data) => {
-      chrome.storage.local.set({
-        dailyCount: data.dailyCount + 1,
-        totalCount: data.totalCount + 1,
-      });
-    });
+    chrome.storage.local.get(
+      {
+        dailyCount: 0,
+        totalCount: 0,
+        workHoursCount: 0,
+        nonWorkHoursCount: 0,
+      },
+      (data) => {
+        const isWork = isWorkingHours(new Date());
+
+        chrome.storage.local.set({
+          dailyCount: data.dailyCount + 1,
+          totalCount: data.totalCount + 1,
+          workHoursCount: data.workHoursCount + (isWork ? 1 : 0),
+          nonWorkHoursCount: data.nonWorkHoursCount + (isWork ? 0 : 1),
+        });
+      },
+    );
   });
+}
+
+function isWorkingHours(date) {
+  const minutes = date.getHours() * 60 + date.getMinutes();
+
+  const morningStart = 8 * 60 + 30; // 8:30
+  const morningEnd = 12 * 60; // 12:00
+
+  const afternoonStart = 12 * 60 + 45; // 12:45
+  const afternoonEnd = 16 * 60 + 30; // 4:30
+
+  return (
+    (minutes >= morningStart && minutes < morningEnd) ||
+    (minutes >= afternoonStart && minutes < afternoonEnd)
+  );
 }
 
 function ensureToday(callback) {
   const today = getTodayString();
 
-  chrome.storage.local.get({ lastResetDate: today, dailyCount: 0 }, (data) => {
-    if (data.lastResetDate !== today) {
-      chrome.storage.local.set(
-        {
-          dailyCount: 0,
-          lastResetDate: today,
-        },
-        callback,
-      );
-    } else if (callback) {
-      callback();
-    }
-  });
+  chrome.storage.local.get(
+    {
+      lastResetDate: today,
+      dailyCount: 0,
+      workHoursCount: 0,
+      nonWorkHoursCount: 0,
+    },
+    (data) => {
+      if (data.lastResetDate !== today) {
+        chrome.storage.local.set(
+          {
+            dailyCount: 0,
+            workHoursCount: 0,
+            nonWorkHoursCount: 0,
+            lastResetDate: today,
+          },
+          callback,
+        );
+      } else if (callback) {
+        callback();
+      }
+    },
+  );
 }
 
-function resetDailyCount() {
+function resetDailyCounts() {
   chrome.storage.local.set({
     dailyCount: 0,
+    workHoursCount: 0,
+    nonWorkHoursCount: 0,
     lastResetDate: getTodayString(),
   });
 }
 
 function scheduleMidnightReset() {
-  const now = new Date();
   const midnight = new Date();
   midnight.setHours(24, 0, 0, 0);
 
