@@ -57,6 +57,13 @@ function incrementCounters() {
 }
 
 function isWorkingHours(date) {
+  const day = date.getDay();
+
+  // Only allow Monday (1) through Friday (5)
+  if (day < 1 || day > 5) {
+    return false;
+  }
+
   const minutes = date.getHours() * 60 + date.getMinutes();
 
   const morningStart = 8 * 60 + 30; // 8:30
@@ -70,6 +77,7 @@ function isWorkingHours(date) {
     (minutes >= afternoonStart && minutes < afternoonEnd)
   );
 }
+
 
 function ensureToday(callback) {
   const today = getTodayString();
