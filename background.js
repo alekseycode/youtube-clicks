@@ -1,3 +1,5 @@
+const previousUrls = {};
+
 const YOUTUBE_REGEX = /^https?:\/\/(www\.)?youtube\.com/;
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -15,11 +17,18 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 chrome.webNavigation.onCommitted.addListener((details) => {
   if (details.frameId !== 0) return;
 
-  const { url, transitionType, transitionQualifiers } = details;
+  const { tabId, url, transitionType } = details;
+
+  const prevUrl = previousUrls[tabId];
+
+  // Save current URL for next navigation
+  previousUrls[tabId] = url;
 
   if (!YOUTUBE_REGEX.test(url)) return;
   if (transitionType === "reload") return;
-  if (transitionQualifiers.includes("from_address_bar")) return;
+
+  // Only count if previous URL was NOT YouTube
+  if (prevUrl && YOUTUBE_REGEX.test(prevUrl)) return;
 
   incrementCounters();
 });
