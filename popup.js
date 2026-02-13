@@ -36,7 +36,12 @@ document.getElementById("themeToggle").addEventListener("click", () => {
 document.getElementById("saveBtn").addEventListener("click", () => {
   const dashboard = document.getElementById("dashboard");
 
-  html2canvas(dashboard).then((canvas) => {
+  const isDark = document.body.classList.contains("dark");
+  const bgColor = isDark ? "#111827" : "#f9fafb";
+
+  html2canvas(dashboard, {
+    backgroundColor: bgColor,
+  }).then((canvas) => {
     const link = document.createElement("a");
     link.download = `youtube-tracker-${new Date().toISOString().split("T")[0]}.png`;
     link.href = canvas.toDataURL("image/png");
