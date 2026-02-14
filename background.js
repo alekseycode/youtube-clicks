@@ -33,6 +33,10 @@ chrome.webNavigation.onCommitted.addListener((details) => {
   incrementCounters();
 });
 
+chrome.tabs.onRemoved.addListener((tabId) => {
+  delete previousUrls[tabId];
+});
+
 function incrementCounters() {
   ensureToday(() => {
     chrome.storage.local.get(
@@ -77,7 +81,6 @@ function isWorkingHours(date) {
     (minutes >= afternoonStart && minutes < afternoonEnd)
   );
 }
-
 
 function ensureToday(callback) {
   const today = getTodayString();
