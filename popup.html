@@ -126,6 +126,11 @@
       body.dark .icon-btn:hover {
         background: rgba(255, 255, 255, 0.08);
       }
+
+      .streak {
+        display: flex;
+        justify-content: space-between;
+      }
     </style>
   </head>
 
@@ -151,6 +156,11 @@
           <span>Outside Work</span>
           <span class="non-work" id="nonWorkHoursCount">-</span>
         </div>
+      </div>
+
+      <div class="card streak">
+        <div>0-Click Streak:</div>
+        <div><span id="zeroClickStreak">-</span> days</div>
       </div>
 
       <div class="card">

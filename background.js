@@ -3,6 +3,11 @@ const previousUrls = {};
 const YOUTUBE_REGEX = /^https?:\/\/(www\.)?youtube\.com/;
 
 chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.set({
+    zeroClickStreak: 0,
+    lastStreakDate: null,
+  });
+
   scheduleMidnightReset();
   ensureToday();
 });
@@ -111,12 +116,36 @@ function ensureToday(callback) {
 }
 
 function resetDailyCounts() {
-  chrome.storage.local.set({
-    dailyCount: 0,
-    workHoursCount: 0,
-    nonWorkHoursCount: 0,
-    lastResetDate: getTodayString(),
-  });
+  chrome.storage.local.get(
+    {
+      dailyCount: 0,
+      zeroClickStreak: 0,
+      lastStreakDate: null,
+    },
+    (data) => {
+      const today = getTodayString();
+
+      let newStreak = data.zeroClickStreak;
+
+      if (data.dailyCount === 0) {
+        // Only increment if yesterday wasn't already counted
+        if (data.lastStreakDate !== today) {
+          newStreak += 1;
+        }
+      } else {
+        newStreak = 0;
+      }
+
+      chrome.storage.local.set({
+        dailyCount: 0,
+        workHoursCount: 0,
+        nonWorkHoursCount: 0,
+        zeroClickStreak: newStreak,
+        lastStreakDate: today,
+        lastResetDate: today,
+      });
+    },
+  );
 }
 
 function scheduleMidnightReset() {

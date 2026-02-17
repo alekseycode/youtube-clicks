@@ -4,14 +4,15 @@ chrome.storage.local.get(
     totalCount: 0,
     workHoursCount: 0,
     nonWorkHoursCount: 0,
+    zeroClickStreak: 0,
     darkMode: false,
   },
   (data) => {
     document.getElementById("dailyCount").textContent = data.dailyCount;
     document.getElementById("totalCount").textContent = data.totalCount;
     document.getElementById("workHoursCount").textContent = data.workHoursCount;
-    document.getElementById("nonWorkHoursCount").textContent =
-      data.nonWorkHoursCount;
+    document.getElementById("nonWorkHoursCount").textContent = data.nonWorkHoursCount;
+    document.getElementById("zeroClickStreak").textContent = data.zeroClickStreak;
 
     const btn = document.getElementById("themeToggle");
 
