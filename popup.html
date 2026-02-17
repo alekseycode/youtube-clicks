@@ -19,7 +19,7 @@
 
       body.dark {
         background: #111827;
-        color: #f3f4f6;
+        color:whitesmoke;
       }
 
       .title {
@@ -131,6 +131,24 @@
         display: flex;
         justify-content: space-between;
       }
+
+      .num-clicks {
+        display: flex;
+        align-items: baseline;
+      }
+
+      .clicks {
+        font-size:20px;
+        margin-left: 8px;
+      }
+
+      .dim {
+        color: #6b7280;
+      }
+
+      .streak-num {
+        color:whitesmoke;
+      }
     </style>
   </head>
 
@@ -143,32 +161,38 @@
 
       <div class="card">
         <div class="section-label">Today, <span id="todayDate"></span></div>
-        <div class="big-number" id="dailyCount">-</div>
+        <div class="num-clicks">
+          <div class="big-number" id="dailyCount">-</div>
+          <div class="clicks">Clicks</div>
+        </div>
       </div>
 
       <div class="card">
         <div class="section-label">Breakdown</div>
         <div class="row">
-          <span>During Work Hours</span>
-          <span class="work" id="workHoursCount">-</span>
+          <span>During Work Hours:</span>
+          <div class="dim"><span class="work" id="workHoursCount">-</span> clicks</div>
         </div>
         <div class="row">
-          <span>Outside Work</span>
-          <span class="non-work" id="nonWorkHoursCount">-</span>
+          <span>Outside Work:</span>
+          <div class="dim"><span class="non-work" id="nonWorkHoursCount">-</span> clicks</div>
         </div>
       </div>
 
       <div class="card streak">
         <div>0-Click Streak:</div>
-        <div><span id="zeroClickStreak">-</span> days</div>
+        <div class="dim"><span class="streak-num" id="zeroClickStreak">-</span> days</div>
       </div>
 
       <div class="card">
         <div class="section-label">All Time</div>
+        <div class="num-clicks">
         <div class="big-number" id="totalCount">-</div>
+        <div class="clicks">Clicks</div>
+        </div>
       </div>
 
-      <div class="footer">Stay intentional.</div>
+      <div class="footer">Work heartily.</div>
     </div>
 
     <button class="btn" id="saveBtn">Download as Image</button>
