@@ -6,6 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({
     zeroClickStreak: 0,
     lastStreakDate: null,
+    longestStreak: 0,
   });
 
   scheduleMidnightReset();
@@ -121,16 +122,22 @@ function resetDailyCounts() {
       dailyCount: 0,
       zeroClickStreak: 0,
       lastStreakDate: null,
+      longestStreak: 0,
     },
     (data) => {
       const today = getTodayString();
 
       let newStreak = data.zeroClickStreak;
+      let newLongest = data.longestStreak;
 
       if (data.dailyCount === 0) {
         // Only increment if yesterday wasn't already counted
         if (data.lastStreakDate !== today) {
           newStreak += 1;
+        }
+
+        if (newStreak > newLongest) {
+          newLongest = newStreak;
         }
       } else {
         newStreak = 0;
@@ -141,6 +148,7 @@ function resetDailyCounts() {
         workHoursCount: 0,
         nonWorkHoursCount: 0,
         zeroClickStreak: newStreak,
+        longestStreak: newLongest,
         lastStreakDate: today,
         lastResetDate: today,
       });

@@ -5,6 +5,7 @@ chrome.storage.local.get(
     workHoursCount: 0,
     nonWorkHoursCount: 0,
     zeroClickStreak: 0,
+    longestStreak: 0,
     darkMode: false,
   },
   (data) => {
@@ -13,6 +14,7 @@ chrome.storage.local.get(
     document.getElementById("workHoursCount").textContent = data.workHoursCount;
     document.getElementById("nonWorkHoursCount").textContent = data.nonWorkHoursCount;
     document.getElementById("zeroClickStreak").textContent = data.zeroClickStreak;
+    document.getElementById("longestStreak").textContent = data.longestStreak;
 
     const btn = document.getElementById("themeToggle");
 
