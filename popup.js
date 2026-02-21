@@ -18,6 +18,23 @@ chrome.storage.local.get(
 
     const btn = document.getElementById("themeToggle");
 
+    const streakLogo = document.getElementById("streak-logo");
+    if (data.zeroClickStreak > 0 && data.zeroClickStreak < 7) {
+      streakLogo.textContent = "🔥";
+    } else if (data.zeroClickStreak >= 7 && data.zeroClickStreak < 15) {
+      streakLogo.textContent = "💪";
+    } else if (data.zeroClickStreak >= 15 && data.zeroClickStreak < 30) {
+      streakLogo.textContent = "🚀";
+    } else if (data.zeroClickStreak >= 30 && data.zeroClickStreak < 60) {
+      streakLogo.textContent = "🏆";
+    } else if (data.zeroClickStreak >= 60 && data.zeroClickStreak < 100) {
+      streakLogo.textContent = "👑";
+    } else if (data.zeroClickStreak >= 100) {
+      streakLogo.textContent = "✝️";
+    } else {
+      streakLogo.textContent = "";
+    }
+
     if (data.darkMode) {
       document.body.classList.add("dark");
       btn.textContent = "☀️";
