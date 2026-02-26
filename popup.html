@@ -22,16 +22,19 @@
         color: whitesmoke;
       }
 
+      .toggle {
+        display: flex;
+        justify-content: flex-end;
+      }
+
       .title {
         display: flex;
-        justify-content: space-between;
         justify-content: center;
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         color: #6b7280;
-        margin-bottom: 12px;
       }
 
       body.dark .title {
@@ -154,9 +157,12 @@
 
   <body>
     <div id="dashboard">
+      <div class="toggle">
+        <button id="themeToggle" class="icon-btn">🌙</button>
+      </div>
+
       <div class="title">
         <p>YouTube Click Tracker</p>
-        <button id="themeToggle" class="icon-btn">🌙</button>
       </div>
 
       <div class="card">
