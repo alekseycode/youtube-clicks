@@ -2,13 +2,20 @@ const previousUrls = {};
 
 const YOUTUBE_REGEX = /^https?:\/\/(www\.)?youtube\.com/;
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({
-    zeroClickStreak: 0,
-    lastStreakDate: null,
-    longestStreak: 0,
-  });
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === "install") {
+    chrome.storage.local.set({
+      zeroClickStreak: 0,
+      lastStreakDate: null,
+      longestStreak: 0,
+    });
+  }
 
+  scheduleMidnightReset();
+  ensureToday();
+});
+
+chrome.runtime.onStartup.addListener(() => {
   scheduleMidnightReset();
   ensureToday();
 });
@@ -31,7 +38,7 @@ chrome.webNavigation.onCommitted.addListener((details) => {
   previousUrls[tabId] = url;
 
   if (!YOUTUBE_REGEX.test(url)) return;
-  if (transitionType === "reload") return;
+  if (transitionType === "reload" || transitionType === "auto_subframe") return;
 
   // Only count if previous URL was NOT YouTube
   if (prevUrl && YOUTUBE_REGEX.test(prevUrl)) return;
@@ -95,8 +102,11 @@ function ensureToday(callback) {
     {
       lastResetDate: today,
       dailyCount: 0,
+      totalCount: 0,
       workHoursCount: 0,
       nonWorkHoursCount: 0,
+      zeroClickStreak: 0,
+      longestStreak: 0,
     },
     (data) => {
       if (data.lastResetDate !== today) {
@@ -107,10 +117,10 @@ function ensureToday(callback) {
             nonWorkHoursCount: 0,
             lastResetDate: today,
           },
-          callback,
+          () => callback && callback(),
         );
-      } else if (callback) {
-        callback();
+      } else {
+        callback && callback();
       }
     },
   );
@@ -166,5 +176,5 @@ function scheduleMidnightReset() {
 }
 
 function getTodayString() {
-  return new Date().toISOString().split("T")[0];
+  return new Date().toLocaleDateString("en-CA");
 }

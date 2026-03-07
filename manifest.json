@@ -2,13 +2,21 @@
   "manifest_version": 3,
   "name": "YouTube Click Tracker",
   "version": "1.2.2",
-  "description": "Tracks intentional navigation to YouTube",
+  "description": "Tracks intentional YouTube clicks and shows daily statistics, 0-click streaks, and longest streaks to help reduce mindless YouTube browsing.",
   "permissions": ["webNavigation", "storage", "alarms"],
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_popup": "popup.html"
+  "icons": {
+    "128": "yt-clicks-icon.png"
   },
-  "host_permissions": ["*://*.youtube.com/*"]
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "yt-clicks-icon.png"
+    }
+  },
+  "host_permissions": ["*://*.youtube.com/*"],
+  "minimum_chrome_version": "110",
+  "homepage_url": "https://github.com/alekseycode/youtube-clicks"
 }
