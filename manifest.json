@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "YouTube Click Tracker",
   "version": "1.2.2",
-  "description": "Tracks intentional YouTube clicks and shows daily statistics, 0-click streaks, and longest streaks to help reduce mindless YouTube browsing.",
+  "description": "Tracks intentional YouTube visits and shows daily stats and 0-click streaks to help reduce mindless browsing.",
   "permissions": ["webNavigation", "storage", "alarms"],
   "background": {
     "service_worker": "background.js"
